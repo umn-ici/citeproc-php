@@ -212,19 +212,6 @@ trait InheritableNameAttributesTrait
 
     private $nameDelimiter = ", ";
 
-    public function isDescendantOfMacro()
-    {
-        $parent = $this->parent;
-
-        while ($parent != null && $parent instanceof HasParent) {
-            if ($parent instanceof Macro) {
-                return true;
-            }
-            $parent = $parent->getParent();
-        }
-        return false;
-    }
-
     /**
      * @param \SimpleXMLElement $node
      */
@@ -234,11 +221,7 @@ trait InheritableNameAttributesTrait
         $parentStyleElement = null;
         if ($this instanceof  Name || $this instanceof Names) {
             if ($context->getMode() === "bibliography") {
-                if ($this->isDescendantOfMacro()) {
-                    $parentStyleElement = $context->getRoot();
-                } else {
-                    $parentStyleElement = $context->getBibliography();
-                }
+                $parentStyleElement = $context->getBibliography();
             } else {
                 $parentStyleElement = $context->getCitation();
             }

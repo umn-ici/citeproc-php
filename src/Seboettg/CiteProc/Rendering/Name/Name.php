@@ -133,6 +133,7 @@ class Name implements HasParent
             return CiteProc::getContext()->getCitationItems()->getSubsequentAuthorSubstitute();
         }
 
+        $prevResultNamesCount = count($resultNames);
         $resultNames = $this->prepareAbbreviation($resultNames);
 
         /* When set to “true” (the default is “false”), name lists truncated by et-al abbreviation are followed by
@@ -140,7 +141,7 @@ class Name implements HasParent
         possible when the original name list has at least two more names than the truncated name list (for this
         the value of et-al-use-first/et-al-subsequent-min must be at least 2 less than the value of
         et-al-min/et-al-subsequent-use-first). */
-        if ($this->etAlUseLast) {
+        if ($this->etAlUseLast && $prevResultNamesCount !== count($resultNames)) {
             $this->and = "…"; // set "and"
             $this->etAl = null; //reset $etAl;
         }
