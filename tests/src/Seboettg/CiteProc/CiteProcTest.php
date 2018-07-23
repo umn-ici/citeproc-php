@@ -78,7 +78,8 @@ class CiteProcTest extends TestCase
         $citeProc = new CiteProc($style);
         $cssStyles = $citeProc->renderCssStyles();
         $this->assertTrue(strpos($cssStyles, "csl-entry") !== false);
-        $this->assertTrue(strpos($cssStyles, "text-indent: 45px") !== false);
+        $this->assertTrue(strpos($cssStyles, "text-indent: -45px") !== false);
+        $this->assertTrue(strpos($cssStyles, "padding-left: 45px") !== false);
     }
 
     public function testRenderCssStyleLineAndEntrySpacing()
