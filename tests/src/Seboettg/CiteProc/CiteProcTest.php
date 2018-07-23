@@ -42,6 +42,11 @@ class CiteProcTest extends TestCase
         $this->_testRenderTestSuite("fullstyles_APA_MultipleAuthors");
     }
 
+    public function testFullStyleAPAEtAl()
+    {
+        $this->_testRenderTestSuite("fullstyles_APA_EtAl");
+    }
+
     public function testFullStyleDINBibliography()
     {
         $this->_testRenderTestSuite("fullstyles_DINBibliography");
