@@ -95,7 +95,7 @@ class Label implements Rendering
         $plural = $this->defaultPlural();
 
         if ($this->variable === "editortranslator") {
-            if (isset($data->editor) && isset($data->translator)) {
+            if (!empty($data->editor) && !empty($data->translator)) {
                 $plural = $this->getPlural($data, $plural, "editortranslator");
                 $term = CiteProc::getContext()->getLocale()->filter('terms', "editortranslator", $form);
                 $pluralForm = $term->{$plural};
