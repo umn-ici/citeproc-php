@@ -29,13 +29,19 @@ class CssStyle
     private $cssRules = null;
 
     /**
+     * @var string
+     */
+    private $namespace;
+
+    /**
      * CssStyle constructor.
      * @param BibliographyOptions $bibliographyOptions
      */
-    public function __construct(BibliographyOptions $bibliographyOptions)
+    public function __construct(BibliographyOptions $bibliographyOptions, $namespace = '')
     {
         $this->bibliographyOptions = $bibliographyOptions;
         $this->cssRules = new CssRules();
+        $this->namespace = $namespace ? $namespace . ' ' : $namespace;
         $this->init();
     }
 
@@ -45,7 +51,12 @@ class CssStyle
      */
     public function render()
     {
-        return implode("\n", $this->cssRules->toArray());
+        $rules = $this->cssRules->toArray();
+        if (count($rules) === 0) {
+            return '';
+        }
+
+        return $this->namespace . implode("\n{$this->namespace}", $rules);
     }
 
     /**

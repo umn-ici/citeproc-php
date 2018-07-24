@@ -91,6 +91,16 @@ class CiteProcTest extends TestCase
         $this->assertTrue(strpos($cssStyles, "margin-bottom: 2em") !== false);
     }
 
+    public function testRenderCssStyleInNamespace()
+    {
+        $style = StyleSheet::loadStyleSheet("international-journal-of-humanoid-robotics");
+        $citeProc = new CiteProc($style);
+        $cssStyles = $citeProc->renderCssStyles('.namespace');
+
+        $this->assertTrue(strpos($cssStyles, ".namespace .csl-left-margin") !== false);
+        $this->assertTrue(strpos($cssStyles, ".namespace .csl-right-inline") !== false);
+    }
+
     public function testGetInfo()
     {
         $style = StyleSheet::loadStyleSheet("harvard-north-west-university");
