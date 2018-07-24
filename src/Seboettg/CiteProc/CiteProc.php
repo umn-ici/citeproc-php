@@ -206,16 +206,17 @@ class CiteProc
     }
 
     /**
+     * @param string $namespace Prefix for style classnames (e.g., '.bibliography-1' will render a class names as '.bibliography-1 .csl-entry')
      * @return string
      */
-    public function renderCssStyles()
+    public function renderCssStyles($namespace = '')
     {
         if (self::getContext() === null) {
             $this->init();
         }
 
         if (self::getContext()->getCssStyle() == null) {
-            $cssStyle = new CssStyle(self::getContext()->getBibliographySpecificOptions());
+            $cssStyle = new CssStyle(self::getContext()->getBibliographySpecificOptions(), $namespace);
             self::getContext()->setCssStyle($cssStyle);
         }
 
