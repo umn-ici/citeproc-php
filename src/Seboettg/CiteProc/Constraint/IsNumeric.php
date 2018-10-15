@@ -58,8 +58,11 @@ class IsNumeric implements ConstraintInterface
         if (is_numeric($evalValue)) {
             return true;
         } else if (preg_match(NumberHelper::PATTERN_ORDINAL, $evalValue)) {
-            $numberFormatter = new NumberFormatter(CiteProc::getContext()->getLocale()->getLanguage(), NumberFormatter::ORDINAL);
-            return $numberFormatter->parse($evalValue) !== false;
+            // $numberFormatter = new NumberFormatter(CiteProc::getContext()->getLocale()->getLanguage(), NumberFormatter::ORDINAL);
+            // return $numberFormatter->parse($evalValue) !== false;
+            // The Acquia environment doesn't have the Intl extension (by default), so using NumberFormatter fails. Therefore, we'll
+            // just use a slightly more strict regex than NumberHelper::PATTERN_ORDINAL and call it a day.
+            return preg_match("/^\s*\d+(st|nd|rd|th)?\s*([\-\-\&,]\s*\d+(st|nd|rd|th)?\s*)?$/", $evalValue) ? true : false;
         } else if (preg_match(NumberHelper::PATTERN_ROMAN, $evalValue)) {
             return NumberHelper::roman2Dec($evalValue) !== false;
         } else if (preg_match(NumberHelper::PATTERN_COMMA_AMPERSAND_RANGE, $evalValue)) {
