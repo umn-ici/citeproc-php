@@ -80,17 +80,19 @@ class Number implements Rendering
         switch ($this->form) {
             case 'ordinal':
                 $var = $data->{$this->variable};
-                if (preg_match("/\s*(\d+)\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
+                if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
                     $num1 = self::ordinal($matches[1]);
                     $num2 = self::ordinal($matches[3]);
                     $text = $this->buildNumberRangeString($num1, $num2, $matches[2]);
+                } else if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*/", $var, $matches)) {
+                    $text = self::ordinal($matches[1]);
                 } else {
                     $text = self::ordinal($var);
                 }
                 break;
             case 'long-ordinal':
                 $var = $data->{$this->variable};
-                if (preg_match("/\s*(\d+)\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
+                if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
                     if ($this->textCase === "capitalize-first" || $this->textCase === "sentence") {
                         $num1 = self::longOrdinal($matches[1]);
                         $num2 = self::longOrdinal($matches[3]);
@@ -99,16 +101,20 @@ class Number implements Rendering
                         $num2 = $this->applyTextCase(self::longOrdinal($matches[3]));
                     }
                     $text = $this->buildNumberRangeString($num1, $num2, $matches[2]);
+                } else if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*/", $var, $matches)) {
+                    $text = self::longOrdinal($matches[1]);
                 } else {
                     $text = self::longOrdinal($var);
                 }
                 break;
             case 'roman':
                 $var = $data->{$this->variable};
-                if (preg_match("/\s*(\d+)\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
+                if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
                     $num1 = Util\NumberHelper::dec2roman($matches[1]);
                     $num2 = Util\NumberHelper::dec2roman($matches[3]);
                     $text = $this->buildNumberRangeString($num1, $num2, $matches[2]);
+                } else if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*/", $var, $matches)) {
+                    $text = Util\NumberHelper::dec2roman($matches[1]);
                 } else {
                     $text = Util\NumberHelper::dec2roman($var);
                 }
@@ -122,8 +128,10 @@ class Number implements Rendering
                  ampersand (“2&3” becomes “2 & 3”).
                  */
                 $var = $data->{$this->variable};
-                if (preg_match("/\s*(\d+)\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
+                if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*([\-\-\&,])\s*(\d+)\s*/", $var, $matches)) {
                     $text = $this->buildNumberRangeString($matches[1], $matches[3], $matches[2]);
+                } else if (preg_match("/\s*(\d+)(?:st|nd|rd|th)?\s*/", $var, $matches)) {
+                    $text = $matches[1];
                 } else {
                     $text = $var;
                 }
